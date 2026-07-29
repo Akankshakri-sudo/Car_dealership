@@ -6,12 +6,14 @@ from sqlalchemy.orm import Session
 from app.api.dependencies import get_current_user, require_admin
 from app.database.models import User
 from app.database.session import get_db
+from app.schemas.inventory import PurchaseRequest, PurchaseResponse, RestockRequest
 from app.schemas.vehicle import (
     PaginatedVehicleResponse,
     VehicleCreateRequest,
     VehicleResponse,
     VehicleUpdateRequest,
 )
+from app.services.inventory_service import InventoryService
 from app.services.vehicle_service import VehicleService
 
 router = APIRouter(prefix="/vehicles", tags=["Vehicles"])
@@ -100,3 +102,31 @@ def delete_vehicle(
     """Delete a vehicle from inventory (Admin only)."""
     vehicle_service = VehicleService(db)
     vehicle_service.delete_vehicle(id)
+
+
+@router.post(
+    "/{id}/purchase", response_model=PurchaseResponse, status_code=status.HTTP_200_OK
+)
+def purchase_vehicle(
+    id: int,
+    request: PurchaseRequest = PurchaseRequest(),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Purchase a vehicle (Authenticated). Uses database transactions and row-level locking."""
+    inventory_service = InventoryService(db)
+    return inventory_service.purchase_vehicle(id, request)
+
+
+@router.post(
+    "/{id}/restock", response_model=VehicleResponse, status_code=status.HTTP_200_OK
+)
+def restock_vehicle(
+    id: int,
+    request: RestockRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin),
+):
+    """Restock a vehicle (Admin only)."""
+    inventory_service = InventoryService(db)
+    return inventory_service.restock_vehicle(id, request)
