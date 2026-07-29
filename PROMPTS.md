@@ -161,5 +161,45 @@ N/A
 
 Executed `pytest --cov=app --cov-report=term-missing`, verified 22/22 passing tests with 96% backend code coverage, ran Ruff linting and Black formatting cleanly, and committed changes to Git.
 
+## Entry 5
+
+**Date:** 2026-07-29  
+**AI tool:** Gemini 3.6 Flash  
+**Purpose:** Phase 5 Vehicle Management (Vehicle entity model with NUMERIC price and INTEGER quantity check constraints, Pydantic v2 schemas, repository, service, API endpoints for creation, listing, multi-filter search, updating, deleting, seed script, and integration test suite).
+
+### My prompt
+
+> Execute Phase 5: Vehicle Management.
+
+### AI response summary
+
+Followed strict TDD workflow to implement `Vehicle` entity model (`app/database/models.py`), Pydantic schemas (`app/schemas/vehicle.py`), vehicle repository (`app/repositories/vehicle_repository.py`), vehicle service (`app/services/vehicle_service.py`), API endpoints (`app/api/routes/vehicles.py`), sample vehicle seed script (`app/scripts/seed_vehicles.py`), and Alembic migration (`alembic/versions/2026_07_29_0002_create_vehicles_table.py`). Guaranteed route precedence by declaring `/api/vehicles/search` prior to path parameter routes.
+
+### Files affected
+
+- `backend/app/database/models.py`
+- `backend/app/schemas/vehicle.py`
+- `backend/app/repositories/vehicle_repository.py`
+- `backend/app/services/vehicle_service.py`
+- `backend/app/api/routes/vehicles.py`
+- `backend/app/main.py`
+- `backend/app/scripts/seed_vehicles.py`
+- `backend/alembic/versions/2026_07_29_0002_create_vehicles_table.py`
+- `backend/tests/integration/test_vehicles_api.py`
+- `backend/tests/unit/test_vehicle_unit.py`
+
+### What I accepted
+
+Accepted route declaration order precedence, case-insensitive substring matching for search, numeric database types, and test assertions.
+
+### What I changed manually
+
+N/A
+
+### Verification
+
+Executed `pytest --cov=app --cov-report=term-missing`, verified 32/32 passing tests with 97% backend code coverage, ran Ruff linting and Black formatting cleanly, and committed changes to Git.
+
+
 
 
