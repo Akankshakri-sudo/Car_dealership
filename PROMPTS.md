@@ -118,4 +118,48 @@ N/A
 
 Executed `pytest --cov=app --cov-report=term-missing`, verified 4/4 passing tests with 100% code coverage, ran Ruff linting and Black formatting cleanly, and committed changes to Git.
 
+## Entry 4
+
+**Date:** 2026-07-29  
+**AI tool:** Gemini 3.6 Flash  
+**Purpose:** Phase 4 Authentication (User entity model, bcrypt security utilities, JWT creation/validation, Pydantic schemas, User repository, AuthService, Auth API endpoints, role dependencies, admin seed script, and unit/integration test suite).
+
+### My prompt
+
+> Execute Phase 4: Authentication.
+
+### AI response summary
+
+Followed strict TDD workflow to implement security utilities (`app/core/security.py`), User database entity (`app/database/models.py`), request/response schemas (`app/schemas/user.py`, `app/schemas/auth.py`), user repository (`app/repositories/user_repository.py`), authentication business service (`app/services/auth_service.py`), API endpoints (`POST /api/auth/register`, `POST /api/auth/login`, `GET /api/auth/me`), authorization guards (`app/api/dependencies.py`), and admin seed script (`app/scripts/seed_admin.py`).
+
+### Files affected
+
+- `backend/app/database/models.py`
+- `backend/app/core/security.py`
+- `backend/app/schemas/user.py`
+- `backend/app/schemas/auth.py`
+- `backend/app/repositories/user_repository.py`
+- `backend/app/services/auth_service.py`
+- `backend/app/api/dependencies.py`
+- `backend/app/api/routes/auth.py`
+- `backend/app/scripts/seed_admin.py`
+- `backend/alembic/versions/2026_07_29_0001_create_users_table.py`
+- `backend/tests/unit/test_security.py`
+- `backend/tests/unit/test_auth_unit.py`
+- `backend/tests/unit/test_seed_admin_and_deps.py`
+- `backend/tests/integration/test_auth_api.py`
+
+### What I accepted
+
+Accepted password hashing rules, JWT authorization workflow, customer role safety enforcement, and test suite definitions.
+
+### What I changed manually
+
+N/A
+
+### Verification
+
+Executed `pytest --cov=app --cov-report=term-missing`, verified 22/22 passing tests with 96% backend code coverage, ran Ruff linting and Black formatting cleanly, and committed changes to Git.
+
+
 
