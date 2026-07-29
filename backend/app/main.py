@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.routes import auth
 from app.core.config import settings
 from app.core.exceptions import AppException, app_exception_handler
 
@@ -26,7 +27,14 @@ app.add_middleware(
 # Register Custom Exception Handler
 app.add_exception_handler(AppException, app_exception_handler)
 
+# Include API Routers under /api prefix
+api_router = APIRouter(prefix="/api")
+api_router.include_router(auth.router)
 
-@app.get("/api/health", tags=["Health"])
+
+@api_router.get("/health", tags=["Health"])
 def health_check():
     return {"status": "ok", "app": settings.APP_NAME}
+
+
+app.include_router(api_router)
