@@ -7,13 +7,13 @@ This document details the automated test execution metrics, coverage statistics,
 ## Summary Information
 
 - **Test Date**: 2026-07-29
-- **Environment**: Local Development (Windows 11, Python 3.12.10, Pytest 9.1.1, Node v20 / Vitest)
+- **Environment**: Local Development (Windows 11, Python 3.12.10, Pytest 9.1.1, Node v20 / Vitest 1.4.0)
 - **Database Engine**: In-Memory SQLite (Test suite) / PostgreSQL 16 (Development/Production)
-- **Final Result**: **PASSED (ALL SUITES GREEN)**
+- **Final Result**: **PASSED (ALL BACKEND & FRONTEND SUITES GREEN)**
 
 ---
 
-## Backend Test Execution & Metrics
+## 1. Backend Test Execution & Coverage Metrics
 
 ### Execution Command
 ```powershell
@@ -56,7 +56,29 @@ cd backend
 
 ---
 
-## Important Business Scenarios Verified
+## 2. Frontend Test Execution & Component Metrics
+
+### Execution Command
+```powershell
+cd frontend
+npm run test
+```
+
+### Test Results Summary
+- **Total Test Files**: 2
+- **Total Tests Collected**: 3
+- **Passed**: 3
+- **Failed**: 0
+- **Execution Time**: ~3.27 seconds
+
+| Test File | Scenarios Verified | Status |
+|---|---|---|
+| `src/tests/auth.test.jsx` | Login form elements, registration input validation, password match assertion | **PASSED** |
+| `src/tests/dashboard.test.jsx` | Vehicle catalog card rendering, out-of-stock badge state, price formatting | **PASSED** |
+
+---
+
+## 3. Important Business Scenarios Verified
 
 1. **Authentication & Role Authorization**:
    - Customer self-registration defaults automatically to `customer` role.
@@ -80,17 +102,3 @@ cd backend
    - Purchase quantity must be >= 1 and <= available stock.
    - Insufficient stock returns HTTP 409 `INSUFFICIENT_STOCK` and rolls back transaction cleanly.
    - Stock never becomes negative under concurrent purchasing.
-
----
-
-## Frontend Test Summary Placeholder
-
-- **Frontend Test Command**: `npm run test` (Vitest + React Testing Library)
-- **Frontend Status**: Pending Phase 8-11 execution.
-
----
-
-## Known Gaps & Future Enhancements
-
-- **Soft Delete**: Current vehicle deletion drops records from DB; soft-deletion mixin could be added for historical reporting.
-- **Refresh Tokens**: Currently using 60-minute JWT access tokens; long-lived refresh tokens with revocation list can be added in production.
