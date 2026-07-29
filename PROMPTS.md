@@ -200,6 +200,41 @@ N/A
 
 Executed `pytest --cov=app --cov-report=term-missing`, verified 32/32 passing tests with 97% backend code coverage, ran Ruff linting and Black formatting cleanly, and committed changes to Git.
 
+## Entry 6
+
+**Date:** 2026-07-29  
+**AI tool:** Gemini 3.6 Flash  
+**Purpose:** Phase 6 Inventory Operations (Atomic vehicle purchase engine with PostgreSQL row-level locks, insufficient stock error handling, atomic quantity deduction, admin restocking service, Pydantic schemas, API endpoints, and integration/unit test suite).
+
+### My prompt
+
+> Execute Phase 6: Inventory Operations.
+
+### AI response summary
+
+Followed strict TDD workflow to implement `InventoryService` (`app/services/inventory_service.py`), schemas (`app/schemas/inventory.py`), and routes (`POST /api/vehicles/{id}/purchase`, `POST /api/vehicles/{id}/restock`). Ensured concurrency safety using SQLAlchemy `.with_for_update()` row-level locks within database transactions. Raised HTTP 409 `INSUFFICIENT_STOCK` on stock shortages.
+
+### Files affected
+
+- `backend/app/schemas/inventory.py`
+- `backend/app/services/inventory_service.py`
+- `backend/app/api/routes/vehicles.py`
+- `backend/tests/integration/test_inventory_api.py`
+- `backend/tests/unit/test_inventory_unit.py`
+
+### What I accepted
+
+Accepted database row locking strategy (`SELECT FOR UPDATE`), stock threshold validation, and transaction rollback handling.
+
+### What I changed manually
+
+N/A
+
+### Verification
+
+Executed `pytest --cov=app --cov-report=term-missing`, verified 40/40 passing tests with 97% backend code coverage, ran Ruff linting and Black formatting cleanly, and committed changes to Git.
+
+
 
 
 
