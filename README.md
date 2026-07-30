@@ -64,20 +64,30 @@ AutoApex is an enterprise-grade vehicle procurement and inventory management pla
 
 ## 4. Screenshots
 
-> Place screenshot image files in `docs/screenshots/`
+### User Authentication
+| Login Interface | Registration Form |
+| :---: | :---: |
+| ![Login Page](docs/screenshots/login.png) | ![Registration Page](docs/screenshots/register.png) |
 
-```text
-docs/
-└── screenshots/
-    ├── login.png
-    ├── register.png
-    ├── dashboard.png
-    ├── search-results.png
-    ├── purchase-success.png
-    ├── admin-inventory.png
-    ├── swagger-docs.png
-    └── test-results.png
-```
+### Customer Dashboard & Inventory Search
+| Vehicle Inventory Catalog | Multi-Filter Search Results |
+| :---: | :---: |
+| ![Catalog Dashboard](docs/screenshots/dashboard.png) | ![Search & Filter Results](docs/screenshots/search-results.png) |
+
+### Vehicle Purchasing & Out-of-Stock Handling
+| Out of Stock Badging | Vehicle Purchase Flow |
+| :---: | :---: |
+| ![Out of Stock Badge](docs/screenshots/out-of-stock.png) | ![Purchase Success](docs/screenshots/purchase-success.png) |
+
+### Administrative Management Panel
+| Dealership Inventory Table | Add New Vehicle Form | Edit Vehicle Form |
+| :---: | :---: | :---: |
+| ![Admin Inventory](docs/screenshots/admin-inventory.png) | ![Add Vehicle](docs/screenshots/add-vehicle.png) | ![Edit Vehicle](docs/screenshots/edit-vehicle.png) |
+
+### API Documentation & Automated Testing
+| FastAPI Interactive Swagger Docs (`/docs`) | Pytest Backend Test Suite (40 Passed) | Vitest Frontend Test Suite (29 Passed) |
+| :---: | :---: | :---: |
+| ![Swagger Docs](docs/screenshots/swagger-docs.png) | ![Backend Tests](docs/screenshots/backend-tests.png) | ![Frontend Tests](docs/screenshots/frontend-tests.png) |
 
 ---
 
@@ -226,8 +236,8 @@ cd backend
 ## 16. Admin Seed Instructions
 ```powershell
 cd backend
-$env:ADMIN_EMAIL="admin@dealership.com"
-$env:ADMIN_PASSWORD="AdminPassword@123"
+$env:ADMIN_EMAIL="<your-admin-email@example.com>"
+$env:ADMIN_PASSWORD="<choose-a-strong-password>"
 .\.venv\Scripts\python.exe -m app.scripts.seed_admin
 ```
 
@@ -290,7 +300,11 @@ cd backend
 ---
 
 ## 23. Test Report
-See complete test metrics and coverage breakdown in [TEST_REPORT.md](file:///c:/Users/akank/Desktop/Car_dealership/TEST_REPORT.md).
+The repository contains 69 passed automated tests across full-stack backend and frontend test suites:
+- **Backend (Pytest)**: 40 passed tests (97% total line coverage)
+- **Frontend (Vitest)**: 29 passed tests across 10 test files
+
+See complete test metrics, PostgreSQL concurrency locking verification, and coverage breakdown in [TEST_REPORT.md](file:///c:/Users/akank/Desktop/Car_dealership/TEST_REPORT.md).
 
 ---
 

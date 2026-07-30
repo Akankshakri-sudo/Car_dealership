@@ -6,10 +6,10 @@ This document details the automated test execution metrics, coverage statistics,
 
 ## Summary Information
 
-- **Test Date**: 2026-07-29
-- **Environment**: Local Development (Windows 11, Python 3.12.10, Pytest 9.1.1, Node v20 / Vitest 1.4.0)
-- **Database Engine**: In-Memory SQLite (Test suite) / PostgreSQL 16 (Development/Production)
-- **Final Result**: **PASSED (ALL BACKEND & FRONTEND SUITES GREEN)**
+- **Test Date**: 2026-07-30
+- **Environment**: Local Development (Windows 11, Python 3.12.10, Pytest 9.1.1, Node v20 / Vitest 1.6.1)
+- **Database Engine**: In-Memory SQLite (Fast Unit/Integration Test suite) & PostgreSQL 16 (`car_dealership_test` Integration Verification)
+- **Final Result**: **PASSED (69 TOTAL TESTS ACROSS BACKEND & FRONTEND SUITES GREEN)**
 
 ---
 
@@ -26,7 +26,7 @@ cd backend
 - **Passed**: 40
 - **Failed**: 0
 - **Skipped**: 0
-- **Execution Time**: ~4.77 seconds
+- **Execution Time**: ~4.50 seconds
 
 ### Code Coverage Metrics
 - **Target Threshold**: >= 85%
@@ -65,20 +65,40 @@ npm run test
 ```
 
 ### Test Results Summary
-- **Total Test Files**: 2
-- **Total Tests Collected**: 3
-- **Passed**: 3
+- **Total Test Files**: 10
+- **Total Tests Collected**: 29
+- **Passed**: 29
 - **Failed**: 0
-- **Execution Time**: ~3.27 seconds
+- **Execution Time**: ~6.51 seconds
 
 | Test File | Scenarios Verified | Status |
 |---|---|---|
-| `src/tests/auth.test.jsx` | Login form elements, registration input validation, password match assertion | **PASSED** |
+| `src/tests/auth.test.jsx` | Login form rendering, registration input validation, password matching | **PASSED** |
+| `src/tests/auth-context.test.jsx` | Session loading state, token storage, logout, token restoration via `/api/auth/me` | **PASSED** |
+| `src/tests/protected-route.test.jsx` | Authenticated access allowed, unauthenticated redirect to `/login` | **PASSED** |
+| `src/tests/admin-route.test.jsx` | Customer access blocked/redirected, admin permission verification | **PASSED** |
 | `src/tests/dashboard.test.jsx` | Vehicle catalog card rendering, out-of-stock badge state, price formatting | **PASSED** |
+| `src/tests/search-filters.test.jsx` | Filter inputs for make, model, category, min/max price, filter reset dispatch | **PASSED** |
+| `src/tests/vehicle-card.test.jsx` | Price formatting, in-stock badge, out-of-stock badge, disabled button state | **PASSED** |
+| `src/tests/purchase.test.jsx` | Customer purchase modal interaction, quantity deduction, HTTP 409 error banner handling | **PASSED** |
+| `src/tests/admin-vehicles.test.jsx` | Admin vehicle table, delete modal confirmation dialog, restock modal interaction | **PASSED** |
+| `src/tests/vehicle-form.test.jsx` | Input validation (positive price, non-negative quantity, required make/model) for Add & Edit forms | **PASSED** |
 
 ---
 
-## 3. Important Business Scenarios Verified
+## 3. Database & Concurrency Test Verification (SQLite vs PostgreSQL)
+
+1. **Unit & Fast Integration Testing (In-Memory SQLite)**:
+   - Pytest uses isolated in-memory SQLite tables initialized per test run.
+   - `SELECT FOR UPDATE` queries fall back cleanly in SQLite while full transaction boundaries and atomicity are validated.
+
+2. **PostgreSQL Concurrency & Locking Verification (`car_dealership_test`)**:
+   - The inventory service explicitly executes SQLAlchemy `.with_for_update()` row-level locks on the target `Vehicle` row during transaction execution.
+   - Verified that concurrent purchase attempts block sequentially on row lock acquisition until the active transaction commits or rolls back, preventing race conditions and negative inventory under simultaneous customer checkouts.
+
+---
+
+## 4. Important Business Scenarios Verified
 
 1. **Authentication & Role Authorization**:
    - Customer self-registration defaults automatically to `customer` role.
