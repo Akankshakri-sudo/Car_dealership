@@ -1,0 +1,46 @@
+services:
+  # Backend API Web Service (FastAPI)
+  - type: web
+    name: autoapex-backend
+    env: python
+    region: oregon
+    buildCommand: "cd backend && pip install -r requirements.txt && alembic upgrade head"
+    startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: APP_NAME
+        value: AutoApex Dealership System
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: false
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 120
+      - key: FRONTEND_URL
+        value: "*"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: autoapex-db
+          property: connectionString
+
+  # Frontend Static Site (React Vite)
+  - type: web
+    name: autoapex-frontend
+    env: static
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: "frontend/dist"
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+databases:
+  # PostgreSQL Database
+  - name: autoapex-db
+    databaseName: car_dealership
+    user: postgres
